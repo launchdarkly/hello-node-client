@@ -14,7 +14,7 @@ const ldClient = LaunchDarkly.initialize("YOUR_CLIENT_SIDE_ID", user);
 
 ldClient.on('ready', () => {
   // TODO: Enter the key for your feature flag here
-  const showFeature = ldClient.variation("YOUR_FEATURE_FLAG_KEY", user, false);
+  const showFeature = ldClient.variation("YOUR_FEATURE_FLAG_KEY", false);
 
   if (showFeature) {
     // application code to show the feature
