@@ -4,6 +4,6 @@
   "description": "Hello LaunchDarkly for Node.js Client-Side",
   "main": "index.js",
   "dependencies": {
-    "launchdarkly-node-client-sdk": ">=1.0.0"
+    "launchdarkly-node-client-sdk": ">= 1.0.0"
   }
 }
