@@ -36,9 +36,7 @@ ldClient.waitForInitialization().then(function() {
   // the user properties and flag usage statistics will not appear on your dashboard. In a
   // normal long-running application, the SDK would continue running and events would be
   // delivered automatically in the background.
-  ldClient.close(function() {
-    process.exit(0);
-  });
+  ldClient.close();
 }).catch(function(error) {
   showMessage("SDK failed to initialize: " + error);
   process.exit(1);
