@@ -1,31 +1,43 @@
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 
+// Set environmentId to your LaunchDarkly client-side ID.
+const environmentId = "";
+
+// Set featureFlagKey to the feature flag key you want to evaluate.
+const featureFlagKey = "my-boolean-flag";
+
+function showMessage(s) {
+  console.log("*** " + s);
+  console.log("");
+}
+
+if (environmentId == "") {
+  showMessage("Please edit index.js to set environmentId to your LaunchDarkly client-side ID first");
+  process.exit(1);
+}
+
+// Set up the user properties. This user should appear on your LaunchDarkly users dashboard
+// soon after you run the demo.
 const user = {
-  "firstName":"Bob",
-  "lastName":"Loblaw",
-  "key":"bob@example.com",
-  "custom":{
-     "groups":"beta_testers"
-  }
+   "key": "example-user-key",
+   "name": "Sandy"
 };
 
-// TODO: Enter your LaunchDarkly Client-side ID here
-const ldClient = LaunchDarkly.initialize("YOUR_CLIENT_SIDE_ID", user);
+const ldClient = LaunchDarkly.initialize(environmentId, user);
 
-ldClient.on('ready', () => {
-  // TODO: Enter the key for your feature flag here
-  const showFeature = ldClient.variation("YOUR_FEATURE_FLAG_KEY", false);
+ldClient.waitForInitialization().then(function() {
+  showMessage("SDK successfully initialized!");
+  const flagValue = ldClient.variation(featureFlagKey, false);
 
-  if (showFeature) {
-    // application code to show the feature
-    console.log("Showing your feature to " + user.key);
-  } else {
-    // the code to run if the feature is off 
-    console.log("Not showing your feature to " + user.key);
-  }
+  showMessage("Feature flag '" + featureFlagKey + "' is " + flagValue + " for this user");
 
-  ldClient.close(() => {
-    console.log('Client has been closed');
-    process.exit(0);
-  });
+  // Here we ensure that the SDK shuts down cleanly and has a chance to deliver analytics
+  // events to LaunchDarkly before the program exits. If analytics events are not delivered,
+  // the user properties and flag usage statistics will not appear on your dashboard. In a
+  // normal long-running application, the SDK would continue running and events would be
+  // delivered automatically in the background.
+  ldClient.close();
+}).catch(function(error) {
+  showMessage("SDK failed to initialize: " + error);
+  process.exit(1);
 });
