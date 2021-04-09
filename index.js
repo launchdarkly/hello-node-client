@@ -26,6 +26,7 @@ const user = {
 const ldClient = LaunchDarkly.initialize(environmentId, user);
 
 ldClient.waitForInitialization().then(function() {
+  showMessage("SDK successfully initialized!");
   const flagValue = ldClient.variation(featureFlagKey, false);
 
   showMessage("Feature flag '" + featureFlagKey "' is " + flagValue + " for this user");
@@ -38,4 +39,7 @@ ldClient.waitForInitialization().then(function() {
   ldClient.close(function() {
     process.exit(0);
   });
+}).catch(function(error) {
+  showMessage("SDK failed to initialize: " + error);
+  process.exit(1);
 });
