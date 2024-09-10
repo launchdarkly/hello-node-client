@@ -1,6 +1,6 @@
 const LaunchDarkly = require('launchdarkly-node-client-sdk');
 
-// Set sdkKey to your LaunchDarkly SDK key.
+// Set clientSideId to your LaunchDarkly client-side ID.
 const clientSideId = process.env.LAUNCHDARKLY_CLIENT_SIDE_ID ?? 'your-sdk-key';
 
 // Set featureFlagKey to the feature flag key you want to evaluate.
