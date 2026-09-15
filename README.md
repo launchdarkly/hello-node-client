@@ -8,16 +8,15 @@ For a sample application demonstrating how to use LaunchDarkly in *server-side* 
 
 ## Build instructions
 
-1. Install the LaunchDarkly Client-Side Node.js SDK by running `npm install`
+1. Set the environment variable `LAUNCHDARKLY_CLIENT_SIDE_ID` to your LaunchDarkly client-side ID. If there is an existing boolean feature flag in your LaunchDarkly project that you want to evaluate, set `LAUNCHDARKLY_FLAG_KEY` to the flag key; otherwise, a boolean flag of `sample-feature` will be assumed.
 
-2. Edit `index.js` and set the value of `environmentId` to your LaunchDarkly client-side ID. If there is an existing boolean feature flag in your LaunchDarkly project that you want to evaluate, set `featureFlagKey` to the flag key.
+    ```bash
+    export LAUNCHDARKLY_CLIENT_SIDE_ID="1234567890abcdef"
+    export LAUNCHDARKLY_FLAG_KEY="my-boolean-flag"
+    ```
 
-```js
-  const environmentId = "1234567890abcdef";
-
-  const featureFlagKey = "my-flag";
-```
+2. Install the LaunchDarkly Client-Side Node.js SDK by running `npm install`
 
 3. Run `node index.js`
 
-You should see the message `"Feature flag '<flag key>' is <true/false> for this user"`.
+You should receive the message "The '<flagKey>' feature flag evaluates to <flagValue>.". The application will run continuously and react to the flag changes in LaunchDarkly.
